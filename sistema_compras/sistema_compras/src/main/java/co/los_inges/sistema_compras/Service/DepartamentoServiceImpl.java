@@ -9,7 +9,7 @@ import java.util.*;
 @Service
 public class DepartamentoServiceImpl implements DepartamentoService{
 
-    private DepartamentoRepository departamentoRepository;
+    private final DepartamentoRepository departamentoRepository;
 
     public DepartamentoServiceImpl (DepartamentoRepository departamentoRepository) {
         this.departamentoRepository = departamentoRepository;

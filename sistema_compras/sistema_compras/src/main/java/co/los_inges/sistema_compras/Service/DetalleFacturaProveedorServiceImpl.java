@@ -8,7 +8,7 @@ import java.util.*;
 @Service
 public class DetalleFacturaProveedorServiceImpl implements DetalleFacturaProveedorService{
 
-    private DetalleFacturaProveedorRepository detalleFacturaProveedorRepository;
+    private final DetalleFacturaProveedorRepository detalleFacturaProveedorRepository;
 
     public DetalleFacturaProveedorServiceImpl (DetalleFacturaProveedorRepository detalleFacturaProveedorRepository){
         this.detalleFacturaProveedorRepository = detalleFacturaProveedorRepository;

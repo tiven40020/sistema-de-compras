@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class CargoServiceImpl implements CargoService {
 
-    private CargoRepository cargoRepository;
+    private final CargoRepository cargoRepository;
 
     public CargoServiceImpl(CargoRepository cargoRepository) {
         this.cargoRepository = cargoRepository;
