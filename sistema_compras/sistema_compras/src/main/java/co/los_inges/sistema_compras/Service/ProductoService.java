@@ -1,16 +1,20 @@
 package co.los_inges.sistema_compras.Service;
 
+import co.los_inges.sistema_compras.dtos.request.ProductoRequestDTO;
+import co.los_inges.sistema_compras.dtos.response.ProductoResponseDTO;
 import co.los_inges.sistema_compras.models.Producto;
 import java.util.*;
 
 public interface ProductoService {
 
-    List<Producto> getAllProductos();
+    List<ProductoResponseDTO> getAllProductos();
 
-    Optional<Producto> getProductoById(long id);
+    Optional<ProductoResponseDTO> getProductoById(long id);
+
+    ProductoResponseDTO createProducto(ProductoRequestDTO productoRequestDTO);
+
+    Optional<ProductoResponseDTO> updateProducto(long id, ProductoRequestDTO productoRequestDTO);
 
     boolean deleteProducto(long id);
-
-    Optional<Producto> updateProducto(long id, Producto producto);
 
 }

@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 @Entity
 @Table (name = "productos")
 public class Producto {
@@ -16,14 +15,29 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_producto")
     private long idProducto;
+    @Column (nullable = false)
+    private String nombre;
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "id_categoria")
     private Categoria categoria;
-    private String nombre;
-    private String descripcion;
-    private int stock;
+
+    @ManyToOne ( fetch = FetchType.LAZY)
+    @JoinColumn ( name = "id_marca")
+    private Marca marca;
+
+    @ManyToOne( fetch = FetchType.LAZY)
+    @JoinColumn ( name= "id_unidad_medida")
+    private UnidadMedida unidadMedida;
+
+    @Column ( name= "cantidad_unidades_medida")
+    private int cantidadUnidadesMedidas;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name= "id_impuesto")
+    private Impuesto impuesto;
+
     private double precio;
-    @Column(name = "stock_minimo")
-    private int stockMinimo;
+    private int stock;
+    private boolean estado;
 
 }

@@ -1,15 +1,20 @@
 package co.los_inges.sistema_compras.Service;
 
+import co.los_inges.sistema_compras.dtos.request.ProveedorRequestDTO;
+import co.los_inges.sistema_compras.dtos.response.ProveedorResponseDTO;
 import co.los_inges.sistema_compras.models.Proveedor;
 import java.util.*;
 
 public interface ProveedorService {
 
-    List<Proveedor> getAllProveedores();
+    List<ProveedorResponseDTO> getAllProveedores();
 
-    Optional<Proveedor> getProveedorById(long id);
+    Optional<ProveedorResponseDTO> getProveedorById(long id);
+
+    ProveedorResponseDTO createProveedor(ProveedorRequestDTO proveedorRequestDTO);
+
+    Optional<ProveedorResponseDTO> updateProveedor(long id, ProveedorRequestDTO proveedorRequestDTO);
 
     boolean deleteProveedor(long id);
 
-    Optional<Proveedor> updateProveedor(long id, Proveedor proveedor);
 }

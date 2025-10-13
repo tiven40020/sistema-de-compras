@@ -1,57 +1,60 @@
 package co.los_inges.sistema_compras.controllers;
 
-import co.los_inges.sistema_compras.models.Proveedor;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import co.los_inges.sistema_compras.Service.ProveedorService;
+import co.los_inges.sistema_compras.dtos.request.ProveedorRequestDTO;
+import co.los_inges.sistema_compras.dtos.response.ProveedorResponseDTO;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/proveedores")
-@Tag(name = "Proveedores", description = "Operaciones sobre los proveedores")
+
 public class ProveedorController {
 
+    private final ProveedorService proveedorService;
+
+    public ProveedorController (ProveedorService proveedorService) {
+        this.proveedorService = proveedorService;
+    }
 
     @GetMapping
-    @Operation(summary = "Listar proveedores", description = "Obtiene todos los proveedores registrados")
-    @ApiResponse(responseCode = "200", description = "Lista obtenida correctamente")
-    public List<Proveedor> getAll() {
-        return new ArrayList<>();
+    public ResponseEntity<List<ProveedorResponseDTO>> getAll() {
+        List<ProveedorResponseDTO> proveedores = proveedorService.getAllProveedores();
+        return ResponseEntity.ok(proveedores);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar proveedor por ID", description = "Obtiene un proveedor por su identificador único")
-    @ApiResponse(responseCode = "200", description = "Proveedor encontrado")
-    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado")
-    public ResponseEntity<Proveedor> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(new Proveedor());
+    public ResponseEntity<ProveedorResponseDTO> getById(@PathVariable long id) {
+        return proveedorService.getProveedorById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    @Operation(summary = "Crear proveedor", description = "Registra un nuevo proveedor")
-    @ApiResponse(responseCode = "201", description = "Proveedor creado exitosamente")
-    public Proveedor create(@RequestBody Proveedor proveedor) {
-        return new Proveedor();
+    public ResponseEntity<ProveedorResponseDTO> create(@Valid @RequestBody ProveedorRequestDTO dto) {
+        ProveedorResponseDTO nuevo = proveedorService.createProveedor(dto);
+        return ResponseEntity.created(URI.create("/api/proveedores/" + nuevo.idProveedor()))
+                .body(nuevo);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar proveedor", description = "Modifica los datos de un proveedor existente")
-    @ApiResponse(responseCode = "200", description = "Proveedor actualizado")
-    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado")
-    public ResponseEntity<Proveedor> update(@PathVariable Long id, @RequestBody Proveedor proveedor) {
-        return ResponseEntity.ok(new Proveedor());
+    public ResponseEntity<ProveedorResponseDTO> update(
+            @PathVariable long id,
+            @Valid @RequestBody ProveedorRequestDTO dto
+    ) {
+        return proveedorService.updateProveedor(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar proveedor", description = "Elimina un proveedor por ID")
-    @ApiResponse(responseCode = "204", description = "Proveedor eliminado")
-    @ApiResponse(responseCode = "404", description = "Proveedor no encontrado")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        boolean deleted = proveedorService.deleteProveedor(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

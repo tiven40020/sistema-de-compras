@@ -1,57 +1,60 @@
 package co.los_inges.sistema_compras.controllers;
-import co.los_inges.sistema_compras.models.Categoria;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+import co.los_inges.sistema_compras.Service.CategoriaService;
+import co.los_inges.sistema_compras.dtos.request.CategoriaRequestDTO;
+import co.los_inges.sistema_compras.dtos.response.CategoriaResponseDTO;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/categorias")
-@Tag(name = "Categorías", description = "Operaciones sobre las categorías de productos")
+
 public class CategoriaController {
 
+    private final CategoriaService categoriaService;
 
+    public CategoriaController (CategoriaService categoriaService){
+        this.categoriaService = categoriaService;
+    }
 
     @GetMapping
-    @Operation(summary = "Listar categorías", description = "Obtiene todas las categorías")
-    @ApiResponse(responseCode = "200", description = "Lista obtenida correctamente")
-    public List<Categoria> getAll() {
-        List<Categoria>lista = new ArrayList<>();
-        return lista;
+    public ResponseEntity<List<CategoriaResponseDTO>> getAll() {
+        List<CategoriaResponseDTO> categorias = categoriaService.getAllCategorias();
+        return ResponseEntity.ok(categorias);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar categoría por ID", description = "Obtiene una categoría por su ID")
-    @ApiResponse(responseCode = "200", description = "Categoría encontrada")
-    @ApiResponse(responseCode = "404", description = "Categoría no encontrada")
-    public ResponseEntity<Categoria> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(new Categoria());
+    public ResponseEntity<CategoriaResponseDTO> getById(@PathVariable long id) {
+        return categoriaService.getCategoriaById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    @Operation(summary = "Crear categoría", description = "Registra una nueva categoría")
-    @ApiResponse(responseCode = "201", description = "Categoría creada exitosamente")
-    public Categoria create(@RequestBody Categoria categoria) {
-        return new Categoria();
+    public ResponseEntity<CategoriaResponseDTO> create(@Valid @RequestBody CategoriaRequestDTO dto) {
+        CategoriaResponseDTO nueva = categoriaService.createCategoria(dto);
+        return ResponseEntity.created(URI.create("/api/categorias/" + nueva.idCategoria()))
+                .body(nueva);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar categoría", description = "Modifica los datos de una categoría")
-    @ApiResponse(responseCode = "200", description = "Categoría actualizada")
-    @ApiResponse(responseCode = "404", description = "Categoría no encontrada")
-    public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody Categoria categoria) {
-        return ResponseEntity.ok(new Categoria());
+    public ResponseEntity<CategoriaResponseDTO> update(
+            @PathVariable long id,
+            @Valid @RequestBody CategoriaRequestDTO dto
+    ) {
+        return categoriaService.updateCategoria(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar categoría", description = "Elimina una categoría por ID")
-    @ApiResponse(responseCode = "204", description = "Categoría eliminada")
-    @ApiResponse(responseCode = "404", description = "Categoría no encontrada")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> delete(@PathVariable long id) {
+        boolean deleted = categoriaService.deleteCategoria(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

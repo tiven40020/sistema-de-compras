@@ -8,7 +8,6 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 @Table (name = "categorias")
 public class Categoria  {
@@ -17,6 +16,7 @@ public class Categoria  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")
     private long idCategoria;
+    @Column (nullable = false,unique = true)
     private String nombre;
 
     @OneToMany (mappedBy = "categoria", cascade= CascadeType.ALL, fetch = FetchType.LAZY)

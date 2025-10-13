@@ -16,11 +16,20 @@ public class Proveedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_proveedor")
     private long idProveedor;
+    @Column (length = 50)
     private String nombre;
-    private String nit;
-    private String email;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "id_ciudad")
+    private Ciudad ciudad;
+    @Column (length = 100)
     private String direccion;
+    private String email;
+    private boolean estado;
 
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<FacturaProveedor> listaFacturas = new HashSet<>();
+    private Set<ProveedorTelefono> proveedorTelefonos = new HashSet<>();
+
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Compra> compras = new HashSet<>();
 }
