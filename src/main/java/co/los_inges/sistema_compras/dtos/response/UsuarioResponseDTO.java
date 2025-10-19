@@ -1,9 +1,9 @@
 package co.los_inges.sistema_compras.dtos.response;
 
-import java.util.List;
-
 public record UsuarioResponseDTO (
-        Long idUsuario,
+        long idUsuario,
         String nombre,
         String email,
-        String telefono) {}
+        RolResponseDTO rol,
+        String telefono
+) {}

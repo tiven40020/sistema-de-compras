@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 
 public record UsuarioRequestDTO (
         @NotBlank(message = "El nombre del usuario es obligatorio.")
-        @Size(min = 2, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres.")
+        @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres.")
         String nombre,
 
         @NotBlank(message = "El correo electrónico es obligatorio.")
@@ -20,6 +20,10 @@ public record UsuarioRequestDTO (
         String telefono,
 
         @NotBlank(message = "La contraseña es obligatoria.")
-        @Size(min = 2, message = "La contraseña debe tener al menos 6 caracteres.")
-        String password
+        @Size(min = 2, message = "La contraseña debe tener al menos 2 caracteres.")
+        String password,
+
+
+        @NotBlank(message = "El rol del usuario es obligatorio.")
+        String rolNombre
 ){}

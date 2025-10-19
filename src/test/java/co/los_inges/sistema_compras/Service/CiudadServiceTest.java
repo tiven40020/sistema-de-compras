@@ -2,6 +2,7 @@ package co.los_inges.sistema_compras.Service;
 
 import co.los_inges.sistema_compras.dtos.request.CiudadRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.CiudadResponseDTO;
+import co.los_inges.sistema_compras.service.CiudadService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

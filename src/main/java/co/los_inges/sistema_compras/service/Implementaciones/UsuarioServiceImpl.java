@@ -1,11 +1,13 @@
 package co.los_inges.sistema_compras.service.Implementaciones;
 
-import co.los_inges.sistema_compras.service.UsuarioService;
 import co.los_inges.sistema_compras.dtos.request.UsuarioRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.UsuarioResponseDTO;
 import co.los_inges.sistema_compras.mapping.UsuarioMapper;
+import co.los_inges.sistema_compras.models.Rol;
 import co.los_inges.sistema_compras.models.Usuario;
+import co.los_inges.sistema_compras.repositories.RolRepository;
 import co.los_inges.sistema_compras.repositories.UsuarioRepository;
+import co.los_inges.sistema_compras.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final RolRepository rolRepository;
     private final UsuarioMapper usuarioMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -38,6 +41,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuario.setPassword(passwordEncoder.encode(dto.password()));
 
+        var rol = rolRepository.findByNombre(dto.rolNombre())
+                .orElseThrow(() -> new RuntimeException("El rol '" + dto.rolNombre() + "' no existe."));
+
+        usuario.setRol(rol);
+
         Usuario saved = usuarioRepository.save(usuario);
         return usuarioMapper.toDto(saved);
     }
@@ -54,8 +62,16 @@ public class UsuarioServiceImpl implements UsuarioService {
                         existing.setPassword(passwordEncoder.encode(dto.password()));
                     }
 
-                    Usuario updated = usuarioRepository.save(existing);
-                    return usuarioMapper.toDto(updated);
+                    if (dto.rolNombre() != null && !dto.rolNombre().isBlank()) {
+                        var rolExistente = rolRepository.findByNombre(dto.rolNombre())
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                        "El rol '" + dto.rolNombre() + "' no existe."
+                                ));
+                        existing.setRol(rolExistente);
+                    }
+
+                    Usuario actualizado = usuarioRepository.save(existing);
+                    return usuarioMapper.toDto(actualizado);
                 });
     }
 

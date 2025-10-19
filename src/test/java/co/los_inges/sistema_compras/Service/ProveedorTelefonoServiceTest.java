@@ -2,6 +2,7 @@ package co.los_inges.sistema_compras.Service;
 
 import co.los_inges.sistema_compras.dtos.request.ProveedorTelefonoRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.ProveedorTelefonoResponseDTO;
+import co.los_inges.sistema_compras.service.ProveedorTelefonoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

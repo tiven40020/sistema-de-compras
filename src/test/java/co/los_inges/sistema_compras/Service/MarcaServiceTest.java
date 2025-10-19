@@ -2,6 +2,7 @@ package co.los_inges.sistema_compras.Service;
 
 import co.los_inges.sistema_compras.dtos.request.MarcaRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.MarcaResponseDTO;
+import co.los_inges.sistema_compras.service.MarcaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

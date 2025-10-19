@@ -1,7 +1,9 @@
 package co.los_inges.sistema_compras.Service;
 
+import co.los_inges.sistema_compras.dtos.request.RolRequestDTO;
 import co.los_inges.sistema_compras.dtos.request.UsuarioRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.UsuarioResponseDTO;
+import co.los_inges.sistema_compras.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,7 +48,8 @@ class UsuarioServiceTest {
                 "Sara Lopez",
                 "sara.lopez@empresa.com",
                 "3007896541",
-                "sara12345"
+                "sara12345",
+                "ADMIN"
         );
 
         UsuarioResponseDTO creado = usuarioService.createUsuario(request);
@@ -55,18 +58,22 @@ class UsuarioServiceTest {
         assertNotNull(creado.idUsuario(), "Debe generarse un ID para el nuevo usuario");
         assertEquals("Sara Lopez", creado.nombre());
         assertEquals("sara.lopez@empresa.com", creado.email());
+        assertNotNull(creado.rol(), "El usuario debe tener un rol asignado");
+        assertEquals("ADMIN", creado.rol().nombre(), "El rol asignado debe ser ADMIN");
     }
+
 
     @Test
     void updateUsuario() {
         Optional<UsuarioResponseDTO> existente = usuarioService.getUsuarioById(2L);
-        assertTrue(existente.isPresent(), "Debe existir un usuario con ID 2 en el dataset para actualizarlo");
+        assertTrue(existente.isPresent(), "Debe existir un usuario con ID 2 en la base de datos para actualizarlo");
 
         UsuarioRequestDTO request = new UsuarioRequestDTO(
                 "Carlos Perez",
                 "carlos.perez@empresa.com",
                 "3214569870",
-                "nuevoPass456"
+                "nuevoPass456",
+                "ADMIN"
         );
 
         Optional<UsuarioResponseDTO> actualizado = usuarioService.updateUsuario(2L, request);
@@ -74,7 +81,11 @@ class UsuarioServiceTest {
         assertTrue(actualizado.isPresent(), "El usuario con ID 2 no se pudo actualizar");
         assertEquals("Carlos Perez", actualizado.get().nombre());
         assertEquals("carlos.perez@empresa.com", actualizado.get().email());
+        assertNotNull(actualizado.get().rol(), "El usuario debe tener un rol asignado");
+        assertEquals("ADMIN", actualizado.get().rol().nombre(), "El rol asignado debe ser ADMIN");
     }
+
+
 
     @Test
     void deleteUsuario() {

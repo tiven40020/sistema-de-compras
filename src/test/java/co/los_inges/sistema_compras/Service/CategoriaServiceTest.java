@@ -3,6 +3,7 @@ package co.los_inges.sistema_compras.Service;
 
 import co.los_inges.sistema_compras.dtos.request.CategoriaRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.CategoriaResponseDTO;
+import co.los_inges.sistema_compras.service.CategoriaService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

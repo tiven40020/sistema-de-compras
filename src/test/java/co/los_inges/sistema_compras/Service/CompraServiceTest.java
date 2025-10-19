@@ -3,6 +3,7 @@ package co.los_inges.sistema_compras.Service;
 import co.los_inges.sistema_compras.dtos.request.CompraRequestDTO;
 import co.los_inges.sistema_compras.dtos.request.DetalleCompraRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.CompraResponseDTO;
+import co.los_inges.sistema_compras.service.CompraService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
