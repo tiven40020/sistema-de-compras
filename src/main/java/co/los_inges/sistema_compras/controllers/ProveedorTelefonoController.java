@@ -1,10 +1,9 @@
 package co.los_inges.sistema_compras.controllers;
 
-import co.los_inges.sistema_compras.Service.ProveedorTelefonoService;
+import co.los_inges.sistema_compras.service.ProveedorTelefonoService;
 import co.los_inges.sistema_compras.dtos.request.ProveedorTelefonoRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.ProveedorTelefonoResponseDTO;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

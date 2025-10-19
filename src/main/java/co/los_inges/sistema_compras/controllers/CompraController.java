@@ -1,10 +1,9 @@
 package co.los_inges.sistema_compras.controllers;
 
-import co.los_inges.sistema_compras.Service.CompraService;
+import co.los_inges.sistema_compras.service.CompraService;
 import co.los_inges.sistema_compras.dtos.request.CompraRequestDTO;
 import co.los_inges.sistema_compras.dtos.response.CompraResponseDTO;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
