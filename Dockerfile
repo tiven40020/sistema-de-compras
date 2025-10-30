@@ -1,14 +1,13 @@
-# Imagen base: Amazon Corretto 22 (JDK)
-FROM amazoncorretto:22-alpine
-
-# Establecer el directorio de trabajo dentro del contenedor
+# Etapa 1: Build con Maven y JDK 22
+FROM maven:3.9.6-eclipse-temurin-22 AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copiar el archivo JAR generado por Maven
-COPY target/sistema_compras-0.0.1-SNAPSHOT.jar app.jar
+# Etapa 2: Imagen final
+FROM eclipse-temurin:22-jdk
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
-# Exponer el puerto que utiliza Spring Boot
 EXPOSE 8080
-
-# Comando que ejecuta la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
