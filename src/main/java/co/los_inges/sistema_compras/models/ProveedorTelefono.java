@@ -23,7 +23,7 @@ public class ProveedorTelefono {
     @JoinColumn (name = "id_proveedor", nullable = false)
     private Proveedor proveedor;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "id_telefono", nullable = false)
     private Telefono telefono;
 

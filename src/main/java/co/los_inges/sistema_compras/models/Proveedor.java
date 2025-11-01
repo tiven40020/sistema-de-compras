@@ -30,7 +30,7 @@ public class Proveedor {
     private String email;
     private boolean estado;
 
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ProveedorTelefono> proveedorTelefonos = new HashSet<>();
 
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -34,6 +34,8 @@ public class ProveedorServiceImpl implements ProveedorService{
     @Override
     public List<ProveedorResponseDTO> getAllProveedores() {
         List<Proveedor> proveedores = proveedorRepository.findAll();
+
+
         return proveedorMapper.toDtoList(proveedores);
     }
 
